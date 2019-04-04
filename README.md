@@ -2,6 +2,8 @@
 A JSON wrapper that covers most-frequent usages 
 
 
+![Magic](mj.png)
+
 ### Things that SwiftyJSON did not cover ###
 
 SwiftyJSON is great, but it does not support the most important usage in development.
