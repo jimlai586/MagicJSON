@@ -8,14 +8,6 @@ public protocol MJConvertible {
     var mj: MagicJSON {get}
 }
 
-typealias P = Params 
-public enum Params: String, Codable, JSONKey {
-    case data, result
-    public var jkey: String {
-        return self.rawValue
-    }
-}
-
 extension Dictionary: MJConvertible where Key: JSONKey {
     public var mj: MagicJSON {
         return .dict(self.toStringKey())
@@ -179,6 +171,22 @@ public extension MagicJSON {
         default:
             return nil
         }        
+    }
+    var arrayValue: [MagicJSON] {
+        switch self {
+        case .arr(let u):
+            return u.map {MagicJSON($0)}
+        default:
+            return []
+        }
+    }
+    var dictValue: [String: MagicJSON] {
+        switch self {
+        case .dict(let u):
+            return u.mapValues {MagicJSON($0)}
+        default:
+            return [:]
+        }
     }
 }
 
