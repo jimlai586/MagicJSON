@@ -31,6 +31,11 @@ It should work as SwiftyJSON in most-frequent usages.
 
 But this might not work for you if you use SwiftyJSON very differently.
 
+
+### Installation ###
+
+Copy one source file over.
+
 ### Further updates ###
 
 Write this in playground, may miss something. Update later when I find it.
