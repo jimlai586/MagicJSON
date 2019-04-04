@@ -2,7 +2,7 @@
 A JSON wrapper that covers most-frequent usages 
 
 
-![Magic](mj.png)
+![Magic](mj.jpg)
 
 ### Things that SwiftyJSON did not cover ###
 
