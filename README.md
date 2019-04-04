@@ -23,6 +23,14 @@ This one-file library covers all common usages of SwiftyJSON with additional sup
 
 ### Usage ###
 
+declare your enum, and make it conform to JSONKey
+
+e.g.; 
+```Swift
+enum P: String, Codable, JSONKey {...}
+```
+
+then use it for subscript
 ```Swift
 let mj = MJ([P.someKey: [P.someKey: [0, 1, 2, 3, 4, 5]]])
 print(mj[P.someKey][P.someKey][3].intValue) // should print 3
