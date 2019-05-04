@@ -20,7 +20,7 @@ extension Dictionary where Key: JSONKey {
         for k in self.keys {
             let v = self[k]!
             if let u = v as? [Key: Any] {
-                u.toStringKey()
+                _ = u.toStringKey()
             }
             d[k.jkey] = v
         }
@@ -51,23 +51,22 @@ public extension MagicJSON {
             self = .raw(jd)
         }
     }
-
+    
     init() {
         self = .empty
     }
-
+    
     init(data: Data) {
         let json = try? JSONSerialization.jsonObject(with: data, options: [])
-        print(json)
         self.init(json)
     }
     
-
+    
     public subscript<T>(_ k: T) -> MagicJSON where T: JSONKey {
-        get {            
+        get {
             switch self {
             case .dict(let d):
-                return MagicJSON(d[k.jkey]) 
+                return MagicJSON(d[k.jkey])
             default:
                 return MagicJSON.null
             }
@@ -170,7 +169,7 @@ public extension MagicJSON {
             return u as? Double
         default:
             return nil
-        }        
+        }
     }
     var arrayValue: [MagicJSON] {
         switch self {
@@ -186,6 +185,16 @@ public extension MagicJSON {
             return u.mapValues {MagicJSON($0)}
         default:
             return [:]
+        }
+    }
+    var data: Data? {
+        switch self {
+        case .arr(let u):
+            return try? JSONSerialization.data(withJSONObject: u, options: [.prettyPrinted])
+        case .dict(let d):
+            return try? JSONSerialization.data(withJSONObject: d, options: [.prettyPrinted])
+        default:
+            return nil
         }
     }
 }
@@ -208,6 +217,6 @@ extension MagicJSON: CustomStringConvertible {
         guard let d = data else {
             return "null"
         }
-        return String(data: d, encoding: .utf8) ??  "null" 
+        return String(data: d, encoding: .utf8) ??  "null"
     }
 }
