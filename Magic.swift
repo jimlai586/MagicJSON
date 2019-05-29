@@ -1,3 +1,10 @@
+//
+//  Magic.swift
+//  FaunaDB
+//
+//  Created by jimlai on 2019/5/29.
+//
+
 import Foundation
 
 public protocol JSONKey {
@@ -28,6 +35,17 @@ extension Dictionary where Key: JSONKey {
     }
 }
 
+extension Dictionary where Key == String {
+    func toStringKey() -> [String: Any] {
+        return self
+    }
+}
+
+extension String: JSONKey {
+    public var jkey: String {
+        return self
+    }
+}
 
 typealias MJ = MagicJSON
 public enum MagicJSON {
@@ -51,18 +69,17 @@ public extension MagicJSON {
             self = .raw(jd)
         }
     }
-    
+
     init() {
         self = .empty
     }
-    
+
     init(data: Data) {
         let json = try? JSONSerialization.jsonObject(with: data, options: [])
         self.init(json)
     }
-    
-    
-    public subscript<T>(_ k: T) -> MagicJSON where T: JSONKey {
+
+    subscript<T>(_ k: T) -> MagicJSON where T: JSONKey {
         get {
             switch self {
             case .dict(let d):
@@ -81,7 +98,8 @@ public extension MagicJSON {
             }
         }
     }
-    public subscript(_ idx: Int) -> MagicJSON {
+
+    subscript(_ idx: Int) -> MagicJSON {
         get {
             switch self {
             case .arr(let arr):
@@ -89,7 +107,7 @@ public extension MagicJSON {
                     return MagicJSON.null
                 }
                 return MagicJSON(arr[idx])
-                
+
             default:
                 return MagicJSON.null
             }
@@ -107,6 +125,7 @@ public extension MagicJSON {
             }
         }
     }
+
     var stringValue: String {
         switch self {
         case .raw(let u):
